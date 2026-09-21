@@ -5,9 +5,6 @@ from a GitHub repository over a rolling time window and writes a timestamped
 JSON snapshot per run. Run it on a schedule (e.g. every 12 hours) to build a
 time series you can later feed into Grafana.
 
-Built for the **Media Streaming** team's `soundcloud/media-streaming` repo, but
-the repo, window, and deploy workflow are all configurable.
-
 ## Metrics
 
 | ID | What it measures |
@@ -34,7 +31,7 @@ Or fully via flags:
 
 ```sh
 go run ./cmd/metrics \
-  --owner soundcloud --repo media-streaming \
+  --owner christophermiliotis --repo my-repo \
   --lookback-days 14 \
   --deploy-workflow deploy-production.yml \
   --deploy-branch main \
@@ -58,18 +55,18 @@ go build -o bin/metrics ./cmd/metrics
 
 Resolved in increasing order of precedence: **defaults → `config.json` → environment → flags.**
 
-| Field (JSON) | Flag | Env | Default |
-|---|---|---|---|
-| `owner` | `--owner` | `EPM_OWNER` | `soundcloud` |
-| `repo` | `--repo` | `EPM_REPO` | `media-streaming` |
-| `api_base_url` | `--api-base-url` | `EPM_API_BASE_URL` | `https://api.github.com` |
-| `lookback_days` | `--lookback-days` | – | `30` |
-| `deploy_workflow_file` | `--deploy-workflow` | `EPM_DEPLOY_WORKFLOW_FILE` | _(empty)_ |
-| `deploy_branch` | `--deploy-branch` | – | repo default branch |
-| `output_dir` | `--out` | `EPM_OUTPUT_DIR` | `./snapshots` |
+| Field (JSON) | Flag | Env | Default                   |
+|---|---|---|---------------------------|
+| `owner` | `--owner` | `EPM_OWNER` | _empty_                   |
+| `repo` | `--repo` | `EPM_REPO` | _empty_         |
+| `api_base_url` | `--api-base-url` | `EPM_API_BASE_URL` | `https://api.github.com`  |
+| `lookback_days` | `--lookback-days` | – | `30`                      |
+| `deploy_workflow_file` | `--deploy-workflow` | `EPM_DEPLOY_WORKFLOW_FILE` | _(empty)_                 |
+| `deploy_branch` | `--deploy-branch` | – | repo default branch       |
+| `output_dir` | `--out` | `EPM_OUTPUT_DIR` | `./snapshots`             |
 | `output_format` | `--format` | – | `json` (also: `infinity`) |
-| `metrics` | `--metrics` | – | all |
-| `http_timeout_seconds` | – | – | `30` |
+| `metrics` | `--metrics` | – | all                       |
+| `http_timeout_seconds` | – | – | `30`                      |
 
 **Bot filtering** is automatic and needs no configuration: GitHub App accounts
 (dependabot, renovate, gemini-code-assist, …) always have a `[bot]` suffix on
@@ -93,8 +90,8 @@ One file per run: `snapshots/metrics-2026-06-26T12-00-00Z.json`, plus a
 ```jsonc
 {
   "generated_at": "2026-06-26T12:00:00Z",
-  "owner": "soundcloud",
-  "repo": "media-streaming",
+  "owner": "christophermiliotis",
+  "repo": "my-repo",
   "window_from": "2026-05-27T12:00:00Z",
   "window_to": "2026-06-26T12:00:00Z",
   "window_days": 30,
@@ -140,8 +137,8 @@ Row shape:
 [
   {
     "timestamp": "2026-07-01T12:00:00Z",   // = generated_at; Infinity "time" field
-    "owner": "soundcloud",
-    "repo": "media-streaming",
+    "owner": "christophermiliotis",
+    "repo": "my-repo",
     "window_from": "2026-06-01T12:00:00Z",
     "window_to": "2026-07-01T12:00:00Z",
     "window_days": 30,

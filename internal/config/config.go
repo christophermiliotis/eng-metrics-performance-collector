@@ -65,8 +65,8 @@ type Config struct {
 // Default returns the baseline configuration before file/env/flag overrides.
 func Default() Config {
 	return Config{
-		Owner:              "soundcloud",
-		Repo:               "media-streaming",
+		Owner:              "",
+		Repo:               "my-repo",
 		APIBaseURL:         "https://api.github.com",
 		LookbackDays:       30,
 		DeployWorkflowFile: "",

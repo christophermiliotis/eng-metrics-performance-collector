@@ -1,0 +1,8 @@
+# IntelliJ
+.idea
+
+# Snapshots
+snapshots
+
+# actual config
+config.yaml

@@ -1,0 +1,12 @@
+{
+  "owner": "soundcloud",
+  "repo": "media-streaming",
+  "api_base_url": "https://api.github.com",
+  "lookback_days": 30,
+  "deploy_workflow_file": "deploy-to-production.yml",
+  "deploy_branch": "main",
+  "output_dir": "./snapshots",
+  "output_format": "json",
+  "metrics": [],
+  "http_timeout_seconds": 30
+}
